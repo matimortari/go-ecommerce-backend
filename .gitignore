@@ -1,0 +1,16 @@
+tests/
+.vscode/
+temp/
+tmp/
+bin/
+*.tmp
+*.log
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.swp
+*.ini
+.env*
