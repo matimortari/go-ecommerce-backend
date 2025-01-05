@@ -15,6 +15,9 @@ type Config struct {
 	DBHost     string
 	DBPort     string
 	DBName     string
+
+	JWTSecret string
+	JWTExpirationInSeconds int64
 }
 
 var Envs = initConfig()
