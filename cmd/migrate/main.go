@@ -11,6 +11,7 @@ import (
 	"github.com/matimortari/go-backend/config"
 )
 
+// Main entry point for the migration tooling
 func main() {
 	db, err := config.NewPostgreSQLStorage(config.Envs.DBUser, config.Envs.DBPassword, config.Envs.DBHost, config.Envs.DBName)
 	if err != nil {

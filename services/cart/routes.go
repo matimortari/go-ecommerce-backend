@@ -30,11 +30,6 @@ func NewHandler(
 	}
 }
 
-// Register routes for the cart service
-func (h *Handler) RegisterRoutes(router *mux.Router) {
-	router.HandleFunc("/cart/checkout", auth.WithJWTAuth(h.handleCheckout, h.userStore)).Methods(http.MethodPost)
-}
-
 // Handler for checking out the cart and creating an order
 func (h *Handler) handleCheckout(w http.ResponseWriter, r *http.Request) {
 	userID := auth.GetUserIDFromContext(r.Context())
@@ -73,4 +68,9 @@ func (h *Handler) handleCheckout(w http.ResponseWriter, r *http.Request) {
 		"total_price": totalPrice,
 		"order_id":    orderID,
 	})
+}
+
+// Register routes for the cart service
+func (h *Handler) RegisterRoutes(router *mux.Router) {
+	router.HandleFunc("/cart/checkout", auth.WithJWTAuth(h.handleCheckout, h.userStore)).Methods(http.MethodPost)
 }

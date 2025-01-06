@@ -22,13 +22,6 @@ func NewHandler(store types.UserStore) *Handler {
 	return &Handler{store: store}
 }
 
-// Register routes for the user service
-func (h *Handler) RegisterRoutes(router *mux.Router) {
-	router.HandleFunc("/login", h.handleLogin).Methods("POST")
-	router.HandleFunc("/register", h.handleRegister).Methods("POST")
-	router.HandleFunc("/users/{userID}", auth.WithJWTAuth(h.handleGetUser, h.store)).Methods("GET") // Protected route
-}
-
 // Handler for user login requests
 func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 	var user types.LoginUserPayload
@@ -127,4 +120,11 @@ func (h *Handler) handleGetUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	utils.WriteJSON(w, http.StatusOK, user)
+}
+
+// Register routes for the user service
+func (h *Handler) RegisterRoutes(router *mux.Router) {
+	router.HandleFunc("/login", h.handleLogin).Methods("POST")
+	router.HandleFunc("/register", h.handleRegister).Methods("POST")
+	router.HandleFunc("/users/{userID}", auth.WithJWTAuth(h.handleGetUser, h.store)).Methods("GET") // Protected route
 }
