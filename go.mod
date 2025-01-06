@@ -1,4 +1,4 @@
-module github.com/matimortari/go-backend
+module github.com/matimortari/go-ecom-backend
 
 go 1.23.4
 

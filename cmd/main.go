@@ -6,8 +6,8 @@ import (
 	"log"
 
 	_ "github.com/lib/pq"
-	"github.com/matimortari/go-backend/cmd/api"
-	"github.com/matimortari/go-backend/config"
+	"github.com/matimortari/go-ecom-backend/cmd/api"
+	"github.com/matimortari/go-ecom-backend/config"
 )
 
 // Initialize the database connection

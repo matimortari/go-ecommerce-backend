@@ -8,7 +8,7 @@ import (
 	postgresMigrate "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/lib/pq"
-	"github.com/matimortari/go-backend/config"
+	"github.com/matimortari/go-ecom-backend/config"
 )
 
 // Main entry point for the migration tooling

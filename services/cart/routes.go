@@ -6,9 +6,9 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
-	"github.com/matimortari/go-backend/services/auth"
-	"github.com/matimortari/go-backend/types"
-	"github.com/matimortari/go-backend/utils"
+	"github.com/matimortari/go-ecom-backend/services/auth"
+	"github.com/matimortari/go-ecom-backend/types"
+	"github.com/matimortari/go-ecom-backend/utils"
 )
 
 type Handler struct {
