@@ -18,7 +18,6 @@ Backend service for an e-commerce platform using Go and PostgreSQL. It provides 
   bin/          - Compiled binaries
   cmd/          - Main application entry points
   config/       - Configuration files
-  db/           - Database connection and setup
   services/     - Business logic and API handlers
   types/        - Shared data types
   utils/        - Utility functions
@@ -42,7 +41,7 @@ Backend service for an e-commerce platform using Go and PostgreSQL. It provides 
 
   ```bash
    # Server configuration
-  PUBLIC_HOST=http://localhost
+  PUBLIC_HOST=http://localhost/
   PORT=8080
 
    # PostgreSQL database configuration
