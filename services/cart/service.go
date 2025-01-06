@@ -3,7 +3,7 @@ package cart
 import (
 	"fmt"
 
-	"github.com/matimortari/go-backend/types"
+	"github.com/matimortari/go-ecom-backend/types"
 )
 
 func getCartItemsIDs(items []types.CartCheckoutItem) ([]int, error) {

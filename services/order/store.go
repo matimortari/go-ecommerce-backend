@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/matimortari/go-backend/types"
+	"github.com/matimortari/go-ecom-backend/types"
 )
 
 type Store struct {

@@ -1,6 +1,6 @@
 # Go E-Commerce Backend 🛒⚡
 
-Backend service for an e-commerce platform using Go and PostgreSQL. It provides APIs for user authentication, product management, cart functionality, and order processing.
+Backend service for an e-commerce platform using Go and PostgreSQL. It provides APIs for user authentication, product management, cart functionality, and order processing. <img src="https://static.velvetcache.org/pages/2018/06/13/party-gopher/dancing-gopher.gif" alt="Alt text" width="25" height="25">
 
 ## 📦 Key Features
 
@@ -28,7 +28,7 @@ Backend service for an e-commerce platform using Go and PostgreSQL. It provides 
 - Clone the repository:
 
   ```bash
-  git clone https://github.com/matimortari/go-backend .
+  git clone https://github.com/matimortari/go-ecom-backend .
   ```
 
 - Install dependencies:
