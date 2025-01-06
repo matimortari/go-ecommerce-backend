@@ -14,20 +14,13 @@ type User struct {
 }
 
 type Product struct {
-	ID          int     `json:"id"`
-	Name        string  `json:"name"`
-	Description string  `json:"description"`
-	Image       string  `json:"image"`
-	Price       float64 `json:"price"`
-	// note that this isn't the best way to handle quantity
-	// because it's not atomic (in ACID), but it's good enough for this example
-	Quantity  int       `json:"quantity"`
-	CreatedAt time.Time `json:"createdAt"`
-}
-
-type CartCheckoutItem struct {
-	ProductID int `json:"productID"`
-	Quantity  int `json:"quantity"`
+	ID          int       `json:"id"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	Image       string    `json:"image"`
+	Price       float64   `json:"price"`
+	Quantity    int       `json:"quantity"` // TODO: Not the best way to handle quantity because it's not atomic in ACID
+	CreatedAt   time.Time `json:"createdAt"`
 }
 
 type Order struct {
@@ -46,6 +39,11 @@ type OrderItem struct {
 	Quantity  int       `json:"quantity"`
 	Price     float64   `json:"price"`
 	CreatedAt time.Time `json:"createdAt"`
+}
+
+type CartCheckoutItem struct {
+	ProductID int `json:"productID"`
+	Quantity  int `json:"quantity"`
 }
 
 type UserStore interface {

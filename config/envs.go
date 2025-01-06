@@ -7,23 +7,20 @@ import (
 )
 
 type Config struct {
-	PublicHost string
-	Port       string
-
-	DBUser     string
-	DBPassword string
-	DBHost     string
-	DBPort     string
-	DBName     string
-
-	JWTSecret string
+	PublicHost             string
+	Port                   string
+	DBUser                 string
+	DBPassword             string
+	DBHost                 string
+	DBPort                 string
+	DBName                 string
+	JWTSecret              string
 	JWTExpirationInSeconds int64
 }
 
 var Envs = initConfig()
 
 func initConfig() Config {
-	// Load environment variables from .env file, if present
 	godotenv.Load()
 
 	return Config{

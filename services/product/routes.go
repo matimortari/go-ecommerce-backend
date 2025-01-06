@@ -17,18 +17,19 @@ type Handler struct {
 	userStore types.UserStore
 }
 
+// Create a new Handler struct
 func NewHandler(store types.ProductStore, userStore types.UserStore) *Handler {
 	return &Handler{store: store, userStore: userStore}
 }
 
+// Register routes for the product service
 func (h *Handler) RegisterRoutes(router *mux.Router) {
 	router.HandleFunc("/products", h.handleGetProducts).Methods(http.MethodGet)
 	router.HandleFunc("/products/{productID}", h.handleGetProduct).Methods(http.MethodGet)
-
-	// Admin routes
-	router.HandleFunc("/products", auth.WithJWTAuth(h.handleCreateProduct, h.userStore)).Methods(http.MethodPost)
+	router.HandleFunc("/products", auth.WithJWTAuth(h.handleCreateProduct, h.userStore)).Methods(http.MethodPost) // Protected route
 }
 
+// Handler for getting all products
 func (h *Handler) handleGetProducts(w http.ResponseWriter, r *http.Request) {
 	products, err := h.store.GetProducts()
 	if err != nil {
@@ -39,6 +40,7 @@ func (h *Handler) handleGetProducts(w http.ResponseWriter, r *http.Request) {
 	utils.WriteJSON(w, http.StatusOK, products)
 }
 
+// Handler for getting a single product by ID
 func (h *Handler) handleGetProduct(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	str, ok := vars["productID"]
@@ -62,6 +64,7 @@ func (h *Handler) handleGetProduct(w http.ResponseWriter, r *http.Request) {
 	utils.WriteJSON(w, http.StatusOK, product)
 }
 
+// Handler for creating a new product
 func (h *Handler) handleCreateProduct(w http.ResponseWriter, r *http.Request) {
 	var product types.CreateProductPayload
 	if err := utils.ParseJSON(r, &product); err != nil {
