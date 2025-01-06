@@ -56,7 +56,7 @@ func TestCartServiceHandler(t *testing.T) {
 	t.Run("should fail to checkout if the cart has negative quantities", func(t *testing.T) {
 		payload := types.CartCheckoutPayload{
 			Items: []types.CartCheckoutItem{
-				{ProductID: 1, Quantity: 0}, // invalid quantity
+				{ProductID: 1, Quantity: 0},
 			},
 		}
 

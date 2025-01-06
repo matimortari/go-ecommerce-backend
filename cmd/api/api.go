@@ -14,13 +14,14 @@ import (
 
 type APIServer struct {
 	addr string
-	db  *sql.DB
+	db   *sql.DB
 }
 
+// Create a new APIServer struct
 func NewAPIServer(addr string, db *sql.DB) *APIServer {
 	return &APIServer{
 		addr: addr,
-		db: db,
+		db:   db,
 	}
 }
 

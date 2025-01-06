@@ -17,18 +17,19 @@ type Handler struct {
 	store types.UserStore
 }
 
+// Create a new Handler struct
 func NewHandler(store types.UserStore) *Handler {
 	return &Handler{store: store}
 }
 
+// Register routes for the user service
 func (h *Handler) RegisterRoutes(router *mux.Router) {
 	router.HandleFunc("/login", h.handleLogin).Methods("POST")
 	router.HandleFunc("/register", h.handleRegister).Methods("POST")
-
-		// Admin routes
-	router.HandleFunc("/users/{userID}", auth.WithJWTAuth(h.handleGetUser, h.store)).Methods(http.MethodGet)
+	router.HandleFunc("/users/{userID}", auth.WithJWTAuth(h.handleGetUser, h.store)).Methods("GET") // Protected route
 }
 
+// Handler for user login requests
 func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 	var user types.LoginUserPayload
 	if err := utils.ParseJSON(r, &user); err != nil {
@@ -63,29 +64,26 @@ func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 	utils.WriteJSON(w, http.StatusOK, map[string]string{"token": token})
 }
 
+// Handler for user registration requests
 func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
-	// Get JSON Payload
 	var payload types.RegisterUserPayload
-	
+
 	if err := utils.ParseJSON(r, &payload); err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
 	}
 
-	// Validate the payload
 	if err := utils.Validate.Struct(payload); err != nil {
 		errors := err.(validator.ValidationErrors)
 		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid payload: %s", errors))
 		return
 	}
 
-	// Check if the user exists
 	_, err := h.store.GetUserByEmail(payload.Email)
 	if err == nil {
 		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("user with email %s already exists", payload.Email))
 		return
 	}
 
-	// If the user doesn't exist, create it
 	hashedPassword, err := auth.HashPassword(payload.Password)
 	if err != nil {
 		utils.WriteError(w, http.StatusInternalServerError, err)
@@ -104,9 +102,10 @@ func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-		utils.WriteJSON(w, http.StatusCreated, nil)
-	}
+	utils.WriteJSON(w, http.StatusCreated, nil)
+}
 
+// Handler for getting a single user by ID
 func (h *Handler) handleGetUser(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	str, ok := vars["userID"]
