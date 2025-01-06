@@ -18,8 +18,18 @@ type Config struct {
 	JWTExpirationInSeconds int64
 }
 
+// Configuration instance
 var Envs = initConfig()
 
+// Get the value of an environment variable or a fallback default value
+func getEnv(key, fallback string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return fallback
+}
+
+// Initialize the configuration from the environment variables
 func initConfig() Config {
 	godotenv.Load()
 
@@ -32,11 +42,4 @@ func initConfig() Config {
 		DBPort:     getEnv("DB_PORT", "5432"),
 		DBName:     getEnv("DB_NAME", "ecom"),
 	}
-}
-
-func getEnv(key, fallback string) string {
-	if value, ok := os.LookupEnv(key); ok {
-		return value
-	}
-	return fallback
 }

@@ -10,6 +10,17 @@ import (
 	"github.com/matimortari/go-backend/config"
 )
 
+// Initialize the database connection
+func initStorage(db *sql.DB) {
+	err := db.Ping()
+	if err != nil {
+		log.Fatalf("Error connecting to database: %v", err)
+	}
+
+	log.Println("Connected to PostgreSQL database")
+}
+
+// Main entry point for the application
 func main() {
 	connStr := fmt.Sprintf(
 		"postgres://%s:%s@%s:%s/%s?sslmode=disable",
@@ -31,13 +42,4 @@ func main() {
 	if err := server.Run(); err != nil {
 		log.Fatal(err)
 	}
-}
-
-func initStorage(db *sql.DB) {
-	err := db.Ping()
-	if err != nil {
-		log.Fatalf("Error connecting to database: %v", err)
-	}
-
-	log.Println("Connected to PostgreSQL database")
 }

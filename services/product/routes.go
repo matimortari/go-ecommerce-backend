@@ -22,13 +22,6 @@ func NewHandler(store types.ProductStore, userStore types.UserStore) *Handler {
 	return &Handler{store: store, userStore: userStore}
 }
 
-// Register routes for the product service
-func (h *Handler) RegisterRoutes(router *mux.Router) {
-	router.HandleFunc("/products", h.handleGetProducts).Methods(http.MethodGet)
-	router.HandleFunc("/products/{productID}", h.handleGetProduct).Methods(http.MethodGet)
-	router.HandleFunc("/products", auth.WithJWTAuth(h.handleCreateProduct, h.userStore)).Methods(http.MethodPost) // Protected route
-}
-
 // Handler for getting all products
 func (h *Handler) handleGetProducts(w http.ResponseWriter, r *http.Request) {
 	products, err := h.store.GetProducts()
@@ -85,4 +78,11 @@ func (h *Handler) handleCreateProduct(w http.ResponseWriter, r *http.Request) {
 	}
 
 	utils.WriteJSON(w, http.StatusCreated, product)
+}
+
+// Register routes for the product service
+func (h *Handler) RegisterRoutes(router *mux.Router) {
+	router.HandleFunc("/products", h.handleGetProducts).Methods(http.MethodGet)
+	router.HandleFunc("/products/{productID}", h.handleGetProduct).Methods(http.MethodGet)
+	router.HandleFunc("/products", auth.WithJWTAuth(h.handleCreateProduct, h.userStore)).Methods(http.MethodPost) // Protected route
 }

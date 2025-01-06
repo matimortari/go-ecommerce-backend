@@ -18,6 +18,49 @@ type contextKey string
 
 const UserKey contextKey = "userID"
 
+// Helper function to write a permission denied error
+func permissionDenied(w http.ResponseWriter) {
+	utils.WriteError(w, http.StatusForbidden, fmt.Errorf("permission denied"))
+}
+
+// Helper function to validate a JWT token
+func validateJWT(tokenString string) (*jwt.Token, error) {
+	return jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+
+		return []byte(config.Envs.JWTSecret), nil
+	})
+}
+
+// Helper function to get the user ID from the context
+func GetUserIDFromContext(ctx context.Context) int {
+	userID, ok := ctx.Value(UserKey).(int)
+	if !ok {
+		return -1
+	}
+
+	return userID
+}
+
+// Create a new JWT token
+func CreateJWT(secret []byte, userID int) (string, error) {
+	expiration := time.Second * time.Duration(config.Envs.JWTExpirationInSeconds)
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"userID":    strconv.Itoa(int(userID)),
+		"expiresAt": time.Now().Add(expiration).Unix(),
+	})
+
+	tokenString, err := token.SignedString(secret)
+	if err != nil {
+		return "", err
+	}
+
+	return tokenString, err
+}
+
 // Middleware for checking if the request has a valid JWT token
 func WithJWTAuth(handlerFunc http.HandlerFunc, store types.UserStore) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -59,47 +102,4 @@ func WithJWTAuth(handlerFunc http.HandlerFunc, store types.UserStore) http.Handl
 
 		handlerFunc(w, r)
 	}
-}
-
-// Create a new JWT token
-func CreateJWT(secret []byte, userID int) (string, error) {
-	expiration := time.Second * time.Duration(config.Envs.JWTExpirationInSeconds)
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"userID":    strconv.Itoa(int(userID)),
-		"expiresAt": time.Now().Add(expiration).Unix(),
-	})
-
-	tokenString, err := token.SignedString(secret)
-	if err != nil {
-		return "", err
-	}
-
-	return tokenString, err
-}
-
-// Validate a JWT token
-func validateJWT(tokenString string) (*jwt.Token, error) {
-	return jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-		}
-
-		return []byte(config.Envs.JWTSecret), nil
-	})
-}
-
-// Helper function to write a permission denied error
-func permissionDenied(w http.ResponseWriter) {
-	utils.WriteError(w, http.StatusForbidden, fmt.Errorf("permission denied"))
-}
-
-// Helper function to get the user ID from the context
-func GetUserIDFromContext(ctx context.Context) int {
-	userID, ok := ctx.Value(UserKey).(int)
-	if !ok {
-		return -1
-	}
-
-	return userID
 }
