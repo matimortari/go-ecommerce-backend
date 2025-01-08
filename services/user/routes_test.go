@@ -25,7 +25,6 @@ func TestUserServiceHandlers(t *testing.T) {
 		router.HandleFunc("/user/{userID}", handler.handleGetUser).Methods(http.MethodGet)
 
 		router.ServeHTTP(rr, req)
-
 		if rr.Code != http.StatusBadRequest {
 			t.Errorf("expected status code %d, got %d", http.StatusBadRequest, rr.Code)
 		}
@@ -43,7 +42,6 @@ func TestUserServiceHandlers(t *testing.T) {
 		router.HandleFunc("/user/{userID}", handler.handleGetUser).Methods(http.MethodGet)
 
 		router.ServeHTTP(rr, req)
-
 		if rr.Code != http.StatusOK {
 			t.Errorf("expected status code %d, got %d", http.StatusOK, rr.Code)
 		}

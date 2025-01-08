@@ -28,7 +28,6 @@ func TestProductServiceHandlers(t *testing.T) {
 		router.HandleFunc("/products", handler.handleGetProducts).Methods(http.MethodGet)
 
 		router.ServeHTTP(rr, req)
-
 		if rr.Code != http.StatusOK {
 			t.Errorf("expected status code %d, got %d", http.StatusOK, rr.Code)
 		}
@@ -46,7 +45,6 @@ func TestProductServiceHandlers(t *testing.T) {
 		router.HandleFunc("/products/{productID}", handler.handleGetProduct).Methods(http.MethodGet)
 
 		router.ServeHTTP(rr, req)
-
 		if rr.Code != http.StatusBadRequest {
 			t.Errorf("expected status code %d, got %d", http.StatusBadRequest, rr.Code)
 		}
@@ -64,7 +62,6 @@ func TestProductServiceHandlers(t *testing.T) {
 		router.HandleFunc("/products/{productID}", handler.handleGetProduct).Methods(http.MethodGet)
 
 		router.ServeHTTP(rr, req)
-
 		if rr.Code != http.StatusOK {
 			t.Errorf("expected status code %d, got %d", http.StatusOK, rr.Code)
 		}
@@ -82,7 +79,6 @@ func TestProductServiceHandlers(t *testing.T) {
 		router.HandleFunc("/products", handler.handleCreateProduct).Methods(http.MethodPost)
 
 		router.ServeHTTP(rr, req)
-
 		if rr.Code != http.StatusBadRequest {
 			t.Errorf("expected status code %d, got %d", http.StatusBadRequest, rr.Code)
 		}
@@ -113,7 +109,6 @@ func TestProductServiceHandlers(t *testing.T) {
 		router.HandleFunc("/products", handler.handleCreateProduct).Methods(http.MethodPost)
 
 		router.ServeHTTP(rr, req)
-
 		if rr.Code != http.StatusCreated {
 			t.Errorf("expected status code %d, got %d", http.StatusCreated, rr.Code)
 		}

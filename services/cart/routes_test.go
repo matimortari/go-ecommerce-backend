@@ -174,7 +174,6 @@ func TestCartServiceHandler(t *testing.T) {
 		if err := json.NewDecoder(rr.Body).Decode(&response); err != nil {
 			t.Fatal(err)
 		}
-
 		if response["total_price"] != 530.0 {
 			t.Errorf("expected total price to be 530, got %f", response["total_price"])
 		}
