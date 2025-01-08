@@ -29,7 +29,6 @@ func checkIfCartIsInStock(cartItems []types.CartCheckoutItem, products map[int]t
 		if !ok {
 			return fmt.Errorf("product %d is not available in the store, please refresh your cart", item.ProductID)
 		}
-
 		if product.Quantity < item.Quantity {
 			return fmt.Errorf("product %s is not available in the quantity requested", product.Name)
 		}
@@ -54,7 +53,6 @@ func (h *Handler) createOrder(products []types.Product, cartItems []types.CartCh
 	for _, product := range products {
 		productsMap[product.ID] = product
 	}
-
 	if err := checkIfCartIsInStock(cartItems, productsMap); err != nil {
 		return 0, 0, err
 	}

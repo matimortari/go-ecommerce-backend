@@ -72,7 +72,6 @@ func WithJWTAuth(handlerFunc http.HandlerFunc, store types.UserStore) http.Handl
 			permissionDenied(w)
 			return
 		}
-
 		if !token.Valid {
 			log.Println("invalid token")
 			permissionDenied(w)
